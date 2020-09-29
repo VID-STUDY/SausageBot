@@ -124,3 +124,26 @@ def get_currency_value() -> int:
     value = settings['currency_value']
     settings.close()
     return value
+
+
+def set_about_text(text: str) -> str:
+    """
+    Set about text
+    :return: void
+    """
+    settings = shelve.open(filename)
+    settings['about_text'] = text
+    settings.close()
+
+
+def get_about_text() -> str:
+    """
+    Get about text
+    :return: about text
+    """
+    settings = shelve.open(filename)
+    if 'about_text' not in settings:
+        settings['about_text'] = 'Привет! Мы КОМПАНИЯ и мы ПРОДАЁМ!'
+    value = settings['about_text']
+    settings.close()
+    return value

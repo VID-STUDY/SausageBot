@@ -76,4 +76,3 @@ def set_delivery_cost():
     return render_template('admin/settings.html', title='Настройки', area='settings',
                            cost_form=delivery_cost_form,
                            location_form=location_form)
-        

@@ -15,6 +15,7 @@ class CategoryForm(FlaskForm):
                                               message='Разрешены только изображения форматов .jpg, .png')])
     parent = SelectField('Родительская категория', coerce=int)
     submit = SubmitField('Сохранить')
+
     def fill_from_object(self, category: DishCategory):
         self.name_ru.data = category.name
         if category.parent:
@@ -72,7 +73,6 @@ class AdministratorPasswordForm(FlaskForm):
                                           validators=[EqualTo('new_password', 'Пароли должны совпадать')])
     submit = SubmitField('Изменить')
 
-
     def validate_password(self, field):
         if not current_user.check_password(field.data):
             raise ValidationError('Указан неверный пароль')
@@ -84,7 +84,7 @@ class DeliveryPriceForm(FlaskForm):
     others_km = StringField('Стоимость за остальной путь',
                             validators=[DataRequired('Укажите стоимость за остальные километры')])
     limit_km = StringField('Лимит доставки (км)',
-                              validators=[DataRequired('Укажите лимит доставки (км)')])
+                           validators=[DataRequired('Укажите лимит доставки (км)')])
     limit_price = StringField('Сверх лимит километража (сум)',
                               validators=[DataRequired('Укажите цену за сверх лимит (сум)')])
     currency_value = StringField('Стоимость доллара, сум',
@@ -105,13 +105,13 @@ class DeliveryPriceForm(FlaskForm):
         self.limit_price.data = settings.get_limit_delivery_price()
         self.limit_km.data = settings.get_limit_delivery_km()
         self.currency_value.data = settings.get_currency_value()
-    
+
     def validate_first_3_km(self, field):
         self.validate_int_value(field)
-    
+
     def validate_others_km(self, field):
         self.validate_int_value(field)
-    
+
     def validate_limit_price(self, field):
         self.validate_int_value(field)
 
