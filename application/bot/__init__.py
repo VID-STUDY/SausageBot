@@ -8,7 +8,7 @@ import os
 
 bp = Blueprint('bot', __name__)
 
-from application.bot import registration, catalog, cart, comments, language, notifications
+from application.bot import registration, catalog, cart, comments, language, notifications, about
 
 if 'PRODUCTION' in os.environ:
     @bp.route(Config.WEBHOOK_URL_PATH, methods=['POST'])
@@ -81,3 +81,9 @@ def empty_message(message: telebot.types.Message):
     main_menu_keyboard = keyboards.get_keyboard('main_menu', language)
     telegram_bot.send_message(chat_id, main_menu_message, reply_markup=main_menu_keyboard)
     return
+
+
+@telegram_bot.message_handler(commands=['about'])
+def send_test_sorry_message(message: telebot.types.Message):
+    message_text = 'О, привет!'
+    telegram_bot.send_message(message.chat.id, message_text)

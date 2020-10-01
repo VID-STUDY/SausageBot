@@ -1,6 +1,7 @@
 from telebot.types import ReplyKeyboardMarkup, ReplyKeyboardRemove, KeyboardButton
 from application.resources.strings import get_string, from_order_shipping_method, from_order_payment_method
 from application.core.models import Order
+from application.utils.bot import to_main_menu
 
 _keyboards_ru = {
     'remove': ReplyKeyboardRemove()
@@ -12,7 +13,7 @@ _keyboards_uz = {
 _default_value = ReplyKeyboardMarkup(resize_keyboard=True)
 _default_value.add('no_keyboard')
 
-# Initialization russian keyboards
+# Initialization russian keyboardspoint_5
 _welcome_language = ReplyKeyboardMarkup(resize_keyboard=True)
 _welcome_language.add(get_string('language.russian'), get_string('language.uzbek'))
 _keyboards_ru['welcome.language'] = _welcome_language
@@ -21,6 +22,7 @@ _main_menu_ru = ReplyKeyboardMarkup(resize_keyboard=True)
 _main_menu_ru.add(get_string('main_menu.make_order'))
 _main_menu_ru.add(get_string('main_menu.send_comment'))
 _main_menu_ru.add(get_string('main_menu.language'))
+_main_menu_ru.add(get_string('main_menu.about'))
 _keyboards_ru['main_menu'] = _main_menu_ru
 
 _go_back_ru = ReplyKeyboardMarkup(resize_keyboard=True)
@@ -68,41 +70,48 @@ _main_menu_uz = ReplyKeyboardMarkup(resize_keyboard=True)
 _main_menu_uz.add(get_string('main_menu.make_order', 'uz'))
 _main_menu_uz.add(get_string('main_menu.send_comment', 'uz'))
 _main_menu_uz.add(get_string('main_menu.language', 'uz'))
+_main_menu_uz.add(get_string('main_menu.about', 'uz'))
 _keyboards_uz['main_menu'] = _main_menu_uz
+
 _go_back_uz = ReplyKeyboardMarkup(resize_keyboard=True)
 _go_back_uz.add(get_string('go_back', 'uz'))
 _keyboards_uz['go_back'] = _go_back_uz
+
 _dish_keyboard_uz = ReplyKeyboardMarkup(resize_keyboard=True, row_width=3)
 _dish_keyboard_uz.add(*[str(x) for x in list(range(1, 10))])
 _dish_keyboard_uz.add(get_string('catalog.cart', 'uz'), get_string('go_back', 'uz'))
 _keyboards_uz['catalog.dish_keyboard'] = _dish_keyboard_uz
+
 _shipping_methods_keyboard_uz = ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
 _shipping_methods_keyboard_uz.add(from_order_shipping_method(Order.ShippingMethods.DELIVERY, 'uz'),
                                   from_order_shipping_method(Order.ShippingMethods.PICK_UP, 'uz'),
                                   get_string('go_to_menu', 'uz'))
 _keyboards_uz['order.shipping_methods'] = _shipping_methods_keyboard_uz
+
 _order_location_keyboard_uz = ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
 location_button_uz = KeyboardButton(get_string('my_location', 'uz'), request_location=True)
 _order_location_keyboard_uz.add(location_button_uz)
 _order_location_keyboard_uz.add(get_string('go_back', 'uz'))
 _keyboards_uz['order.address'] = _order_location_keyboard_uz
+
 _order_payment_keyboard_uz = ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
 _order_payment_keyboard_uz.add(from_order_payment_method(Order.PaymentMethods.PAYME, 'uz'),
                                from_order_payment_method(Order.PaymentMethods.CLICK, 'uz'),
                                from_order_payment_method(Order.PaymentMethods.CASH, 'uz'))
 _order_payment_keyboard_uz.add(get_string('go_back', 'uz'), get_string('go_to_menu', 'uz'))
 _keyboards_uz['order.payment'] = _order_payment_keyboard_uz
+
 _order_confirmation_keyboard_uz = ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
 _order_confirmation_keyboard_uz.add(get_string('order.confirm', 'uz'), get_string('order.cancel', 'uz'))
 _keyboards_uz['order.confirmation'] = _order_confirmation_keyboard_uz
 _order_confirmation_payment_keyboard_uz = ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
 _order_confirmation_payment_keyboard_uz.add(get_string('order.cancel', 'uz'))
 _keyboards_uz['order.payment_confirmation'] = _order_confirmation_payment_keyboard_uz
+
 _comments_keyboard_uz = ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
 _comments_keyboard_uz.add(*[get_string('comments.point_' + str(x), 'uz') for x in list(reversed(range(1, 6)))])
 _comments_keyboard_uz.add(get_string('go_to_menu', 'uz'))
 _keyboards_uz['comments.send_comment'] = _comments_keyboard_uz
-
 
 def get_keyboard(key, language='ru'):
     if language == 'ru':
@@ -115,26 +124,25 @@ def get_keyboard(key, language='ru'):
 
 def from_dish_categories(dish_categories, language: str) -> ReplyKeyboardMarkup:
     categories_keyboard = ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
-    categories_keyboard.add(get_string('catalog.cart', language), get_string('catalog.make_order', language))
     if language == 'uz':
         names = [category.name_uz for category in dish_categories]
     else:
         names = [category.name for category in dish_categories]
     categories_keyboard.add(*names)
-    categories_keyboard.add(get_string('go_back', language))
+    categories_keyboard.add(get_string('catalog.cart', language), get_string('go_back', language))
     return categories_keyboard
 
 
 def from_dishes(dishes, language: str) -> ReplyKeyboardMarkup:
     dishes_keyboard = ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
-    dishes_keyboard.add(get_string('catalog.cart', language), get_string('go_back', language))
     if language == 'uz':
         names = [dish.name_uz for dish in dishes]
     else:
         names = [dish.name for dish in dishes]
     dishes_keyboard.add(*names)
     #####BELLOW###########
-    dishes_keyboard.add(get_string('go_to_menu', language))
+    dishes_keyboard.add(get_string('go_back', language), get_string('go_to_menu', language))
+    dishes_keyboard.add(get_string('catalog.cart', language))
     return dishes_keyboard
 
 

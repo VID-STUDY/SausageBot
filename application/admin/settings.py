@@ -1,7 +1,7 @@
 from . import bp
 from flask import render_template, redirect, url_for, flash
 from flask_login import login_required
-from .forms import DeliveryPriceForm, CafeLocationForm
+from .forms import DeliveryPriceForm, CafeLocationForm, AboutForm
 import settings as app_settings
 
 
@@ -10,11 +10,14 @@ import settings as app_settings
 def settings():
     delivery_cost_form = DeliveryPriceForm()
     location_form = CafeLocationForm()
+    about_form = AboutForm()
     delivery_cost_form.fill_from_settings()
     location_form.fill_from_settings()
+    about_form.fill_from_settings()
     return render_template('admin/settings.html', title='Настройки', area='settings',
                            cost_form=delivery_cost_form,
-                           location_form=location_form)
+                           location_form=location_form,
+                           about_form=about_form)
 
 
 @bp.route('/settings/time', methods=['POST'])
@@ -71,8 +74,24 @@ def set_delivery_cost():
         app_settings.set_currency_value(int(delivery_cost_form.currency_value.data))
         flash('Стоимость доставки изменена', category='success')
         return redirect(url_for('admin.settings'))
-    location_form = CafeLocationForm()
-    location_form.fill_from_settings()
+    about_form = AboutForm()
+    about_form.fill_from_settings()
     return render_template('admin/settings.html', title='Настройки', area='settings',
                            cost_form=delivery_cost_form,
-                           location_form=location_form)
+                           about_form=about_form)
+
+
+@bp.route('/settings/about', methods=['POST'])
+@login_required
+def set_about_text():
+    about_form = AboutForm()
+    if about_form.validate_on_submit():
+        text = about_form.text.data
+        app_settings.set_about_text(text)
+        flash('Информация "О нас" изменена', category='success')
+        return redirect(url_for('admin.settings'))
+    delivery_cost_form = DeliveryPriceForm()
+    delivery_cost_form.fill_from_settings()
+    return render_template('admin/settings.html', title='Настройки', area='settings',
+                           cost_form=delivery_cost_form,
+                           about_form=about_form)

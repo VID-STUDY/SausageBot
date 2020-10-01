@@ -46,7 +46,6 @@ class User(db.Model):
     cart = db.relationship('CartItem', lazy='dynamic', backref='user', cascade='all, delete-orphan')
     orders = db.relationship('Order', lazy='dynamic', backref='customer', cascade='all, delete-orphan')
     comments = db.relationship('Comment', lazy='dynamic', backref='author')
-    accept_policy = db.Column(db.Boolean, default=False)
 
     def _get_cart_item_for_dish(self, dish) -> CartItem:
         """

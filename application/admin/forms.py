@@ -129,8 +129,9 @@ class CafeLocationForm(FlaskForm):
 
     def fill_from_settings(self):
         coordinates = settings.get_cafe_coordinates()
-        self.latitude.data = coordinates[0]
-        self.longitude.data = coordinates[1]
+        if coordinates:
+            self.latitude.data = coordinates[0]
+            self.longitude.data = coordinates[1]
 
 
 class TimeSet(FlaskForm):
@@ -171,6 +172,19 @@ class MailForm(FlaskForm):
     image = FileField('Изображение',
                       validators=[FileAllowed(['png', 'jpg'],
                                               message='Разрешены только изображения форматов .jpg, .png')])
-
     preview = BooleanField('Предпросмотр')
     submit = SubmitField('Разослать')
+
+
+class AboutForm(FlaskForm):
+    text = StringField('Текст "О нас"',
+                       validators=[DataRequired("Введите текст 'О нас'")])
+    #text_uz = StringField('Текст "О нас" на узбекском языке',
+    #                      validators=[DataRequired("Введите текст 'О нас' на узбекском языке")])
+    submit = SubmitField('Сохранить')
+
+    def fill_from_settings(self):
+        text = settings.get_about_text('ru')
+        #text_uz = settings.get_about_text('uz')
+        self.text.data = text
+        #self.text_uz.data = text_uz

@@ -126,24 +126,41 @@ def get_currency_value() -> int:
     return value
 
 
-def set_about_text(text: str) -> str:
+def set_about_text(text: str):
     """
     Set about text
     :return: void
     """
     settings = shelve.open(filename)
-    settings['about_text'] = text
+    settings['about_text_ru'] = text
     settings.close()
 
 
-def get_about_text() -> str:
+def set_about_text_uz(text: str):
+    """
+    Set about text on Uzbek
+    :return: void
+    """
+    settings = shelve.open(filename)
+    settings['about_text_uz'] = text
+    settings.close()
+
+
+def get_about_text(language) -> str:
     """
     Get about text
     :return: about text
     """
     settings = shelve.open(filename)
-    if 'about_text' not in settings:
-        settings['about_text'] = 'Привет! Мы КОМПАНИЯ и мы ПРОДАЁМ!'
-    value = settings['about_text']
-    settings.close()
-    return value
+    if language == 'uz':
+        if 'about_text_uz' not in settings:
+            settings['about_text_uz'] = 'Salom! Biz kompaniya va biz sotamiz!'
+        value = settings['about_text_uz']
+        settings.close()
+        return value
+    else:
+        if 'about_text_ru' not in settings:
+            settings['about_text_ru'] = 'Привет! Мы КОМПАНИЯ и мы ПРОДАЁМ!'
+        value = settings['about_text_ru']
+        settings.close()
+        return value
