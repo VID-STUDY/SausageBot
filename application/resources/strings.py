@@ -101,10 +101,10 @@ def from_order(order: Order, language: str, total: int) -> str:
     )
     if order.address_txt:
         order_content += '<b>{address}:</b> {address_value}\n'.format(address=get_string('address', language),
-                                                                    address_value=order.address_txt)
+                                                                      address_value=order.address_txt)
     elif order.location:
         order_content += '<b>{address}:</b> {address_value}\n'.format(address=get_string('address', language),
-                                                                    address_value=order.location.address)
+                                                                      address_value=order.location.address)
         order_content += '<b>Дистанция:</b> {}\n'.format(order.distance)
     order_content += '\n\n'
     order_item_tmpl = '<b>{counter}. {name}</b>\n{count} x {price} = {sum} {sum_str}\n'
@@ -207,7 +207,7 @@ def from_dish_name(dish: Dish, language):
     if language == 'uz':
         return dish.name_uz
     else:
-        return dish.name
+        return dish.get_full_name()
 
 
 def from_order_items_to_labeled_prices(order_items: List[OrderItem], language) -> List[LabeledPrice]:
