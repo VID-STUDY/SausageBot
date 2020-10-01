@@ -39,7 +39,7 @@ def from_cart_items(cart_items, language, total) -> str:
         counter += 1
         if language == 'uz':
             dish_item = cart_str_item.format(counter=counter,
-                                             name=cart_item.dish.name_uz,
+                                             name=cart_item.dish.get_full_name(),
                                              count=cart_item.count,
                                              price=_format_number(cart_item.dish.price * currency_value),
                                              sum=_format_number(cart_item.count * cart_item.dish.price * currency_value))
@@ -62,11 +62,11 @@ def from_dish(dish: Dish, language: str) -> str:
     dish_content = ""
     if language == 'uz':
         if dish.description_uz:
-            dish_content += dish.description_uz
+            dish_content += dish.get_full_name()
             dish_content += '\n\n'
     else:
         if dish.description:
-            dish_content += dish.description
+            dish_content += dish.get_full_name()
             dish_content += '\n\n'
     price = dish.price * settings.get_currency_value()
     price_currency = 'sum'
@@ -171,7 +171,7 @@ def from_order_notification(order: Order, total_sum):
         counter += 1
         group_content = '\n'
         group_content += order_item_tmpl.format(counter=counter,
-                                                name=oi.dish.name,
+                                                name=oi.dish.get_full_name(),
                                                 count=oi.count,
                                                 price=_format_number(oi.dish.price),
                                                 sum=_format_number(oi.dish.price * oi.count))
