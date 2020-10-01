@@ -171,7 +171,7 @@ def from_order_notification(order: Order, total_sum):
         counter += 1
         group_content = '\n'
         group_content += order_item_tmpl.format(counter=counter,
-                                                name=oi.dish.name,
+                                                name=oi.dish.get_full_name,
                                                 count=oi.count,
                                                 price=_format_number(oi.dish.price),
                                                 sum=_format_number(oi.dish.price * oi.count))
