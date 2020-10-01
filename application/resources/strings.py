@@ -171,10 +171,10 @@ def from_order_notification(order: Order, total_sum):
         counter += 1
         group_content = '\n'
         group_content += order_item_tmpl.format(counter=counter,
-                                               name=oi.dish.description,
-                                               count=oi.count,
-                                               price=_format_number(oi.dish.price),
-                                               sum=_format_number(oi.dish.price * oi.count))
+                                                name=oi.dish.name,
+                                                count=oi.count,
+                                                price=_format_number(oi.dish.price),
+                                                sum=_format_number(oi.dish.price * oi.count))
         order_content += group_content
     order_content += "\n<b>Итого: </b>: {} сум".format(_format_number(order.total_amount))
     if order.delivery_price:
