@@ -15,13 +15,12 @@ _default_value.add('no_keyboard')
 
 # Initialization russian keyboardspoint_5
 _welcome_language = ReplyKeyboardMarkup(resize_keyboard=True)
-_welcome_language.add(get_string('language.russian'), get_string('language.uzbek'))
+_welcome_language.add(get_string('language.russian'))
 _keyboards_ru['welcome.language'] = _welcome_language
 
 _main_menu_ru = ReplyKeyboardMarkup(resize_keyboard=True)
 _main_menu_ru.add(get_string('main_menu.make_order'))
 _main_menu_ru.add(get_string('main_menu.send_comment'))
-_main_menu_ru.add(get_string('main_menu.language'))
 _main_menu_ru.add(get_string('main_menu.about'))
 _keyboards_ru['main_menu'] = _main_menu_ru
 
@@ -124,10 +123,7 @@ def get_keyboard(key, language='ru'):
 
 def from_dish_categories(dish_categories, language: str) -> ReplyKeyboardMarkup:
     categories_keyboard = ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
-    if language == 'uz':
-        names = [category.name_uz for category in dish_categories]
-    else:
-        names = [category.name for category in dish_categories]
+    names = [category.name for category in dish_categories]
     categories_keyboard.add(*names)
     categories_keyboard.add(get_string('catalog.cart', language), get_string('go_back', language))
     return categories_keyboard
@@ -135,10 +131,7 @@ def from_dish_categories(dish_categories, language: str) -> ReplyKeyboardMarkup:
 
 def from_dishes(dishes, language: str) -> ReplyKeyboardMarkup:
     dishes_keyboard = ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
-    if language == 'uz':
-        names = [dish.name_uz for dish in dishes]
-    else:
-        names = [dish.name for dish in dishes]
+    names = [dish.name for dish in dishes]
     dishes_keyboard.add(*names)
     #####BELLOW###########
     dishes_keyboard.add(get_string('go_back', language), get_string('go_to_menu', language))

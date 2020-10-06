@@ -69,7 +69,6 @@ def dish_action_processor(message: Message):
         bot.send_message(chat_id, dish_message, reply_markup=dishes_keyboard)
         bot.register_next_step_handler_by_chat_id(chat_id, choose_dish_processor, category=current_dish.category)
 
-   ##     
     elif strings.get_string('go_to_menu', language) in message.text:
         botutils.to_main_menu(chat_id, language)##MENU
 
