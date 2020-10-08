@@ -167,7 +167,8 @@ def confirm_order(user_id: int, user_name, total_amount: float):
     current_order.confirmation_date = datetime.utcnow()
     current_order.user_name = user_name
     if current_order.delivery_price:
-        current_order.total_amount = current_order.delivery_price + total_amount 
+        current_order.total_amount = total_amount
+        # current_order.total_amount = current_order.delivery_price + total_amount
     else:
         current_order.total_amount = total_amount 
     reduce_dish_count(user_id)

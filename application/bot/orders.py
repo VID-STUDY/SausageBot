@@ -88,7 +88,7 @@ def _to_the_confirmation(chat_id, current_order, language):
         confirmation_keyboard = keyboards.get_keyboard('order.payment_confirmation', language)
         bot.send_message(chat_id, summary_order_message, parse_mode='HTML', reply_markup=confirmation_keyboard)
         invoice = bot.send_invoice(chat_id, title, description, payload, Config.PAYMENT_PROVIDER_TOKEN, currency, prices,
-                         start_parameter)
+                                   start_parameter)
         bot.register_next_step_handler_by_chat_id(chat_id, confirmation_processor, total=total, message_id=invoice.message_id)
         return
     elif current_order.payment_method == Order.PaymentMethods.CLICK:
@@ -101,7 +101,7 @@ def _to_the_confirmation(chat_id, current_order, language):
         confirmation_keyboard = keyboards.get_keyboard('order.payment_confirmation', language)
         bot.send_message(chat_id, summary_order_message, parse_mode='HTML', reply_markup=confirmation_keyboard)
         invoice = bot.send_invoice(chat_id, title, description, payload, Config.PAYMENT_PROVIDER_TOKEN_CLICK, currency, prices,
-                         start_parameter)
+                                   start_parameter)
         bot.register_next_step_handler_by_chat_id(chat_id, confirmation_processor, total=total, message_id=invoice.message_id)
         return
     else:

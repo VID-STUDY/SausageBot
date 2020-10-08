@@ -187,7 +187,7 @@ def catalog_processor(message: Message, **kwargs):
         if not parent_category:
             botutils.to_main_menu(chat_id, language)
             return
-        back_to_the_catalog(chat_id, language, parent_category=None)#NONE
+        back_to_the_catalog(chat_id, language, parent_category=None)
 
     elif strings.get_string('go_to_menu', language) in message.text:
         botutils.to_main_menu(chat_id, language)##MENU
