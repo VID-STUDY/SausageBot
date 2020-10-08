@@ -113,17 +113,18 @@ def get_delivery_price_by_distance(distance):
     delivery_price = settings.get_delivery_cost()
     delivery_price_limit = settings.get_limit_delivery_price()
     delivery_price_km = settings.get_limit_delivery_km()
-    if dis <= 3.0:
-        delivery_cost = delivery_price[0]
-        return round(delivery_cost, 1)
-
-    elif dis > 3.0 and dis <= delivery_price_km:
-        delivery_cost = (dis - 3) * delivery_price[1] + delivery_price[0]
-        return round(delivery_cost, 1)
-
-    else:
-        delivery_cost = (dis * delivery_price[1]) + ((dis - delivery_price_km) * delivery_price_limit)
-        return round(delivery_cost, 1)
+    return 0
+    # if dis <= 3.0:
+    #     delivery_cost = delivery_price[0]
+    #     return round(delivery_cost, 1)
+    #
+    # elif dis > 3.0 and dis <= delivery_price_km:
+    #     delivery_cost = (dis - 3) * delivery_price[1] + delivery_price[0]
+    #     return round(delivery_cost, 1)
+    #
+    # else:
+    #     delivery_cost = (dis * delivery_price[1]) + ((dis - delivery_price_km) * delivery_price_limit)
+    #     return round(delivery_cost, 1)
 
 
 def set_address_by_map_location(user_id: int, map_location: tuple) -> bool:
@@ -143,7 +144,8 @@ def set_address_by_map_location(user_id: int, map_location: tuple) -> bool:
     distance = geocode.distance_between_two_points(map_location, settings.get_cafe_coordinates())
     current_order.location = order_location
     current_order.distance = distance
-    current_order.delivery_price = int(get_delivery_price_by_distance(distance))
+    # current_order.delivery_price = int(get_delivery_price_by_distance(distance))
+    current_order.delivery_price = 0
     db.session.commit()
     return True
 
