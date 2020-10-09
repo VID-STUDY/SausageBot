@@ -22,12 +22,7 @@ def distance_between_two_points(first_coordinates: tuple, second_coordinates: tu
     # Radius of Earth in kilometers is 6731
     km = 6371 * c
     # If distance in kilometres, round the value
-    if km >= 1:
-        return round(km, 1), 'км'
-    else:
-        # If distance is smaller than 1, return metres value
-        metres = km * 1000
-        return round(metres), 'м'
+    return round(km, 1), 'км'
 
 
 def get_address_by_coordinates(coordinates: tuple) -> Optional[AnyStr]:

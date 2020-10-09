@@ -127,22 +127,6 @@ def from_order(order: Order, language: str, total: int) -> str:
                                                 sum=_format_number(order_item.count * dish.price * currency_value),
                                                 sum_str=get_string('sum', language))
         order_content += order_item_str + '\n'
-    if order.delivery_price:
-        order_content += "<b>{}</b> {} {}".format(get_string('cart.summary', language),
-                                                  _format_number(total * currency_value + order.delivery_price),
-                                                  get_string('sum', language))
-    else:
-        order_content += "<b>{}</b> {} {}".format(get_string('cart.summary', language),
-                                                  _format_number(total * currency_value),
-                                                  get_string('sum', language))
-    if not order.delivery_price and order.address_txt:
-        order_content += '\n\n'
-        order_content += '<i>{}</i>'.format(get_string('delivery_price_without_location', language))
-    if order.delivery_price:
-        order_content += '\n\n'
-        order_content += '<i>{}</i>: {} {}'.format(get_string('delivery_price', language),
-                                                   _format_number(order.delivery_price),
-                                                   get_string('sum', language))
     return order_content
 
 
