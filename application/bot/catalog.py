@@ -46,6 +46,13 @@ def dish_action_processor(message: Message):
     user_id = message.from_user.id
     language = userservice.get_user_language(user_id)
 
+    def _total_cart_sum(cart) -> int:
+        summary_dishes_sum = [cart_item.dish.price * cart_item.count
+                              for cart_item in cart]
+        total = sum(summary_dishes_sum)
+        return total
+
+
     def error():
         error_message = strings.get_string('catalog.dish_action_error', language)
         bot.send_message(chat_id, error_message)
@@ -67,35 +74,28 @@ def dish_action_processor(message: Message):
 
     elif strings.get_string('catalog.cart', language) in message.text:
         cart.cart_processor(message, dish_action_processor)
-
-
-@bot.callback_query_handler(func=lambda call: True)
-def count_callback_query(call):
-    def _total_cart_sum(cart) -> int:
-        summary_dishes_sum = [cart_item.dish.price * cart_item.count
-                              for cart_item in cart]
-        total = sum(summary_dishes_sum)
-        return total
-    chat_id = call.message.chat.id
-    user_id = call.from_user.id
-    language = userservice.get_user_language(user_id)
-    bot.answer_callback_query(call.id)
-    bot.clear_step_handler_by_chat_id(chat_id)
-
-    selected_number = int(call.data)
-    current_dish = userservice.get_current_user_dish(user_id)
-    dish_to_check = Dish.query.get(current_dish.id)
-    if selected_number > dish_to_check.quantity:
-        not_enough_count = strings.get_string('not_enough_count', language).format(dish_to_check.quantity)
-        msg = bot.send_message(chat_id, text=not_enough_count)
-        bot.register_next_step_handler(msg, dish_action_processor)
     else:
-        userservice.add_dish_to_cart(user_id, current_dish, selected_number)
-        cart = userservice.get_user_cart(user_id)
-        total = _total_cart_sum(cart)
-        cart_contains_message = strings.from_cart_items(cart, language, total)
-        continue_message = strings.get_string('catalog.continue', language).format(cart_contains_message)
-        back_to_the_catalog(chat_id, language, continue_message)
+        if not message.text.isdigit():
+            error()
+            return
+        # Проверка на количество товара в базе.
+        selected_number = int(message.text)
+        dish_to_check = Dish.query.get(current_dish.id)
+
+        if selected_number > dish_to_check.quantity:
+            not_enough_count = strings.get_string('not_enough_count', language).format(dish_to_check.quantity)
+            msg = bot.send_message(chat_id, text=not_enough_count)
+            bot.register_next_step_handler(msg, dish_action_processor)
+
+        else:
+            userservice.add_dish_to_cart(user_id, current_dish, int(message.text))
+            cart = userservice.get_user_cart(user_id)
+            total = _total_cart_sum(cart)
+            cart_contains_message = strings.from_cart_items(cart, language, total)
+            continue_message = strings.get_string('catalog.continue', language).format(cart_contains_message)
+            
+            back_to_the_catalog(chat_id, language, continue_message)
+
 
 def choose_dish_processor(message: Message, **kwargs):
     chat_id = message.chat.id
