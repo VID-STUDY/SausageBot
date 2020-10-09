@@ -73,7 +73,7 @@ def dish_action_processor(message: Message):
         botutils.to_main_menu(chat_id, language)##MENU
 
     elif strings.get_string('catalog.cart', language) in message.text:
-        cart.cart_processor(message, dish_action_processor)
+        user_cart.cart_processor(message, dish_action_processor)
     else:
         if not message.text.isdigit():
             error()
@@ -121,7 +121,7 @@ def choose_dish_processor(message: Message, **kwargs):
         botutils.to_main_menu(chat_id, language)##MENU
     
     elif strings.get_string('catalog.cart', language) in message.text:
-        cart.cart_processor(message, choose_dish_processor)
+        user_cart.cart_processor(message, choose_dish_processor)
     else:
         dish_name = message.text
         dish = dishservice.get_dish_by_name(dish_name, language, kwargs.get('category'))
@@ -194,7 +194,7 @@ def catalog_processor(message: Message, **kwargs):
 
 
     elif strings.get_string('catalog.cart', language) in message.text:
-        cart.cart_processor(message)
+        user_cart.cart_processor(message)
     elif strings.get_string('catalog.make_order', language) in message.text:
         orders.order_processor(message)
     else:
@@ -243,4 +243,5 @@ def catalog(message: Message):
     bot.register_next_step_handler_by_chat_id(chat_id, catalog_processor)
 
 
-from . import cart, orders
+from . import orders
+from . import cart as user_cart

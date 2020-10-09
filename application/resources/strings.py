@@ -64,10 +64,14 @@ def from_dish(dish: Dish, language: str) -> str:
         if dish.description_uz:
             dish_content += dish.get_full_name()
             dish_content += '\n\n'
+            dish_content += dish.description
+            dish_content += '\n'
     else:
         if dish.description:
             dish_content += dish.get_full_name()
             dish_content += '\n\n'
+            dish_content += dish.description
+            dish_content += '\n'
     price = dish.price * settings.get_currency_value()
     price_currency = 'sum'
     if dish.show_usd:
