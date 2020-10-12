@@ -179,7 +179,7 @@ def payment_method_processor(message: Message):
         orderservice.set_payment_method(user_id, Order.PaymentMethods.CASH)
         phone_number()
     elif strings.from_order_payment_method(Order.PaymentMethods.OtherPAYME, language) in message.text:
-        orderservice.set_payment_method(user_id, Order.PaymentMethods.PAYME)
+        orderservice.set_payment_method(user_id, Order.PaymentMethods.OtherPAYME)
         phone_number()
     elif strings.from_order_payment_method(Order.PaymentMethods.PAYME, language) in message.text:
         orderservice.set_payment_method(user_id, Order.PaymentMethods.PAYME)
