@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 6e688af52b7c
-Revises: 3ddb763db202
-Create Date: 2020-09-22 16:09:28.947455
+Revision ID: 872162513ca8
+Revises: 
+Create Date: 2020-10-12 16:35:00.767307
 
 """
 from alembic import op
@@ -10,8 +10,8 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '6e688af52b7c'
-down_revision = '3ddb763db202'
+revision = '872162513ca8'
+down_revision = None
 branch_labels = None
 depends_on = None
 
@@ -21,7 +21,6 @@ def upgrade():
     op.create_table('dish_categories',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=100), nullable=True),
-    sa.Column('name_uz', sa.String(length=100), nullable=True),
     sa.Column('number', sa.Integer(), nullable=True),
     sa.Column('image_id', sa.String(length=150), nullable=True),
     sa.Column('image_path', sa.String(length=150), nullable=True),
@@ -74,7 +73,6 @@ def upgrade():
     sa.Column('confirmed', sa.Boolean(), nullable=True),
     sa.Column('telegram_id', sa.Integer(), nullable=True),
     sa.Column('registration_date', sa.DateTime(), nullable=True),
-    sa.Column('accept_policy', sa.Boolean(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('comments',
@@ -88,17 +86,15 @@ def upgrade():
     op.create_table('dishes',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=100), nullable=True),
-    sa.Column('name_uz', sa.String(length=100), nullable=True),
     sa.Column('image_id', sa.String(length=150), nullable=True),
     sa.Column('image_path', sa.String(length=150), nullable=True),
     sa.Column('description', sa.String(length=500), nullable=True),
-    sa.Column('description_uz', sa.String(length=500), nullable=True),
     sa.Column('show_usd', sa.Boolean(), nullable=True),
     sa.Column('is_hidden', sa.Boolean(), nullable=True),
     sa.Column('price', sa.Float(), nullable=True),
     sa.Column('number', sa.Integer(), nullable=True),
     sa.Column('category_id', sa.Integer(), nullable=True),
-    sa.Column('quantity', sa.String(length=100), nullable=True),
+    sa.Column('quantity', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['category_id'], ['dish_categories.id'], ),
     sa.PrimaryKeyConstraint('id')
     )

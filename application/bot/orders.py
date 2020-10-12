@@ -104,6 +104,8 @@ def _to_the_confirmation(chat_id, current_order, language):
                                    start_parameter)
         bot.register_next_step_handler_by_chat_id(chat_id, confirmation_processor, total=total, message_id=invoice.message_id)
         return
+    elif current_order.payment_method == Order.PaymentMethods.OtherPAYME:
+        bot.send_message(chat_id, summary_order_message, parse_mode='HTML', reply_markup=confirmation_keyboard)
     else:
         bot.send_message(chat_id, summary_order_message, parse_mode='HTML', reply_markup=confirmation_keyboard)
     bot.register_next_step_handler_by_chat_id(chat_id, confirmation_processor, total=total)

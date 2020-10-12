@@ -190,6 +190,7 @@ class Order(db.Model):
         CASH = 'cash'
         PAYME = 'payme'
         CLICK = 'click'
+        OtherPAYME = 'otherpayme'
 
 
 class Location(db.Model):
