@@ -90,7 +90,7 @@ def from_order_payment_method(value: str, language: str) -> str:
     return get_string('order.' + value, language)
 
 
-def from_order(order: Order, language: str) -> str:
+def from_order(order: Order, language: str, total: int) -> str:
     currency_value = settings.get_currency_value()
     order_content = "<b>{}:</b>".format(get_string('your_order', language))
     order_content += '\n\n'
@@ -130,7 +130,7 @@ def from_order(order: Order, language: str) -> str:
     return order_content
 
 
-def from_order_notification(order: Order):
+def from_order_notification(order: Order, total_sum):
     order_content = "<b>Новый заказ! #{}</b>".format(order.id)
     order_content += '\n\n'
     order_content += '<b>Номер телефона:</b> {}\n'.format(order.phone_number)
