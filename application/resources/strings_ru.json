@@ -44,7 +44,7 @@
     "order.payment_pickup": "Выберите <b>способ оплаты</b> за Ваш заказ",
     "order.cash": "\uD83D\uDCB5 Наличные",
     "order.payme": "\uD83D\uDCB3 Payme",
-    "order.payme": "\uD83D\uDCB3 Payme после доставки",
+    "order.otherpayme": "\uD83D\uDCB3 Payme после доставки",
     "order.click": "\uD83D\uDCB3 Click",
     "order.payment.title": "Заказ #{}",
     "order.payment.description": "Оплатите заказ, указанный выше",
