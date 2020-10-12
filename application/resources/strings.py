@@ -39,21 +39,21 @@ def from_cart_items(cart_items, language, total) -> str:
         counter += 1
         if language == 'uz':
             dish_item = cart_str_item.format(counter=counter,
-                                             name=cart_item.dish.get_full_name(),
+                                             name=cart_item.dish.name,
                                              count=cart_item.count,
                                              price=_format_number(cart_item.dish.price * currency_value),
                                              sum=_format_number(cart_item.count * cart_item.dish.price * currency_value))
         else:
             dish_item = cart_str_item.format(counter=counter,
-                                             name=cart_item.dish.get_full_name(),
+                                             name=cart_item.dish.name,
                                              count=cart_item.count,
                                              price=_format_number(cart_item.dish.price * currency_value),
                                              sum=_format_number(cart_item.count * cart_item.dish.price * currency_value))
         dish_item += " {}\n\n".format(get_string('sum', language))
         cart_contains += dish_item
     cart_contains += "\n<b>{}</b> {} {}".format(get_string('cart.summary', language),
-                                                 _format_number(total * currency_value),
-                                                 get_string('sum', language))
+                                                _format_number(total * currency_value),
+                                                get_string('sum', language))
 
     return cart_contains
 
@@ -90,7 +90,7 @@ def from_order_payment_method(value: str, language: str) -> str:
     return get_string('order.' + value, language)
 
 
-def from_order(order: Order, language: str, total: int) -> str:
+def from_order(order: Order, language: str) -> str:
     currency_value = settings.get_currency_value()
     order_content = "<b>{}:</b>".format(get_string('your_order', language))
     order_content += '\n\n'
@@ -117,9 +117,9 @@ def from_order(order: Order, language: str, total: int) -> str:
         counter += 1
         dish = order_item.dish
         if language == 'uz':
-            dish_name = dish.get_full_name_uz()
+            dish_name = dish.name
         else:
-            dish_name = dish.get_full_name()
+            dish_name = dish.name
         order_item_str = order_item_tmpl.format(counter=counter,
                                                 name=dish_name,
                                                 count=order_item.count,
@@ -130,7 +130,7 @@ def from_order(order: Order, language: str, total: int) -> str:
     return order_content
 
 
-def from_order_notification(order: Order, total_sum):
+def from_order_notification(order: Order):
     order_content = "<b>Новый заказ! #{}</b>".format(order.id)
     order_content += '\n\n'
     order_content += '<b>Номер телефона:</b> {}\n'.format(order.phone_number)
@@ -155,7 +155,7 @@ def from_order_notification(order: Order, total_sum):
         counter += 1
         group_content = '\n'
         group_content += order_item_tmpl.format(counter=counter,
-                                                name=oi.dish.get_full_name(),
+                                                name=oi.dish.name,
                                                 count=oi.count,
                                                 price=_format_number(oi.dish.price),
                                                 sum=_format_number(oi.dish.price * oi.count))
@@ -188,7 +188,7 @@ def from_dish_name(dish: Dish, language):
     if language == 'uz':
         return dish.name_uz
     else:
-        return dish.get_full_name()
+        return dish.name
 
 
 def from_order_items_to_labeled_prices(order_items: List[OrderItem], language) -> List[LabeledPrice]:
