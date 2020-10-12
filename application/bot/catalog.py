@@ -136,14 +136,14 @@ def choose_dish_processor(message: Message, **kwargs):
                 try:
                     image = open(dish.image_path, 'rb')
                 except FileNotFoundError:
-                    bot.send_message(chat_id, dish_info, reply_markup=dish_keyboard)
+                    bot.send_message(chat_id, dish_info, reply_markup=dish_keyboard, parse_mode='HTMLS')
                 else:
-                    sent_message = bot.send_photo(chat_id, image, caption=dish_info, reply_markup=dish_keyboard)
+                    sent_message = bot.send_photo(chat_id, image, caption=dish_info, reply_markup=dish_keyboard, parse_mode='HTML')
                     dishservice.set_dish_image_id(dish, sent_message.photo[-1].file_id)
             elif dish.image_id:
-                bot.send_photo(chat_id, dish.image_id, caption=dish_info, reply_markup=dish_keyboard)
+                bot.send_photo(chat_id, dish.image_id, caption=dish_info, reply_markup=dish_keyboard, parse_mode='HTML')
         else:
-            bot.send_message(chat_id, dish_info, reply_markup=dish_keyboard)
+            bot.send_message(chat_id, dish_info, reply_markup=dish_keyboard, parse_mode='HTML')
         dish_action_helper = strings.get_string('catalog.dish_action_helper', language)
         bot.send_message(chat_id, dish_action_helper)
         bot.register_next_step_handler_by_chat_id(chat_id, dish_action_processor)

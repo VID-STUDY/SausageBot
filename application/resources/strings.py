@@ -62,13 +62,13 @@ def from_dish(dish: Dish, language: str) -> str:
     dish_content = ""
     if language == 'uz':
         if dish.description_uz:
-            dish_content += dish.get_full_name()
+            dish_content += '<b>{}</b>'.format(dish.name)
             dish_content += '\n\n'
             dish_content += dish.description
             dish_content += '\n'
     else:
         if dish.description:
-            dish_content += dish.get_full_name()
+            dish_content += '<b>{}</b>'.format(dish.name)
             dish_content += '\n\n'
             dish_content += dish.description
             dish_content += '\n'
